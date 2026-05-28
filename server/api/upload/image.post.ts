@@ -5,7 +5,7 @@ const slugValidator = LinkSchema.shape.slug
 
 defineRouteMeta({
   openAPI: {
-    description: 'Upload an image to R2 storage',
+    description: '上传图片至 R2 存储',
     requestBody: {
       required: true,
       content: {
@@ -32,24 +32,24 @@ export default eventHandler(async (event) => {
   const slug = formData.get('slug') as string | null
 
   if (!file) {
-    throw createError({ status: 400, statusText: 'File is required' })
+    throw createError({ status: 400, statusText: '缺少文件' })
   }
 
   if (!slug) {
-    throw createError({ status: 400, statusText: 'Slug is required' })
+    throw createError({ status: 400, statusText: '缺少 slug' })
   }
 
   const slugResult = slugValidator.safeParse(slug)
   if (!slugResult.success) {
-    throw createError({ status: 400, statusText: 'Invalid slug format' })
+    throw createError({ status: 400, statusText: 'slug 格式无效' })
   }
 
   if (!IMAGE_ALLOWED_TYPES.includes(file.type)) {
-    throw createError({ status: 400, statusText: 'Invalid file type. Allowed: jpeg, png, webp, gif' })
+    throw createError({ status: 400, statusText: '无效的文件类型。允许的类型：jpeg, png, webp, gif' })
   }
 
   if (file.size > IMAGE_MAX_SIZE) {
-    throw createError({ status: 400, statusText: 'File size exceeds 5MB limit' })
+    throw createError({ status: 400, statusText: '文件大小超过 5MB 限制' })
   }
 
   const ext = file.type.split('/')[1]

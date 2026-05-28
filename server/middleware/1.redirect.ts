@@ -1,3 +1,4 @@
+
 import type { Link } from '@/types'
 import { parsePath, withQuery } from 'ufo'
 
@@ -57,7 +58,7 @@ export default eventHandler(async (event) => {
     return sendRedirect(event, homeURL)
 
   const { notFoundRedirect } = useRuntimeConfig(event)
-  // Bypass redirect check for notFoundRedirect path to prevent infinite loop
+  // 绕过 notFoundRedirect 路径的重定向检查，以防止无限循环
   if (notFoundRedirect && event.path === notFoundRedirect) {
     return
   }
@@ -99,7 +100,7 @@ export default eventHandler(async (event) => {
       const deviceRedirectUrl = getDeviceRedirectUrl(userAgent, link)
       const finalTargetUrl = deviceRedirectUrl ?? targetUrl
 
-      // Password protection check
+      // 密码保护检查
       if (link.password) {
         const headerPassword = getHeader(event, 'x-link-password')
 
@@ -111,18 +112,18 @@ export default eventHandler(async (event) => {
             return sendNoStoreHtml(generatePasswordHtml(slug, { hasError: true, locale: getLocale() }))
           }
 
-          // Password correct - show unsafe warning if needed
+          // 密码正确 - 如有需要，显示不安全警告
           if (link.unsafe && body?.confirm !== 'true') {
             return sendNoStoreHtml(generateUnsafeWarningHtml(slug, finalTargetUrl, { password: submittedPassword, locale: getLocale() }))
           }
         }
         else if (headerPassword) {
           if (!await verifyLinkPassword(headerPassword, link.password)) {
-            throw createError({ status: 403, statusText: 'Incorrect password' })
+            throw createError({ status: 403, statusText: '密码错误' })
           }
-          // Header-password path: check unsafe warning via x-link-confirm header
+          // 请求头密码路径：通过 x-link-confirm 请求头检查不安全警告
           if (link.unsafe && getHeader(event, 'x-link-confirm') !== 'true') {
-            throw createError({ status: 403, statusText: 'Unsafe link: confirmation required (set x-link-confirm: true header)' })
+            throw createError({ status: 403, statusText: '不安全的链接：需要确认（设置 x-link-confirm: true 请求头）' })
           }
         }
         else {
@@ -130,7 +131,7 @@ export default eventHandler(async (event) => {
         }
       }
 
-      // Unsafe link warning (for links without password)
+      // 不安全链接警告（针对没有密码的链接）
       if (!link.password && link.unsafe) {
         if (event.method === 'POST') {
           const body = await readBody(event)
@@ -148,7 +149,7 @@ export default eventHandler(async (event) => {
         await useAccessLog(event)
       }
       catch (error) {
-        console.error('Failed write access log:', error)
+        console.error('写入访问日志失败:', error)
       }
 
       if (deviceRedirectUrl) {
@@ -177,7 +178,7 @@ export default eventHandler(async (event) => {
         return sendRedirect(event, notFoundRedirect, 302)
       }
 
-      throw createError({ status: 404, statusText: 'Link not found' })
+      throw createError({ status: 404, statusText: '链接未找到' })
     }
   }
 })

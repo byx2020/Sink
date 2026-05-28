@@ -1,8 +1,9 @@
+
 import { z } from 'zod'
 
 defineRouteMeta({
   openAPI: {
-    description: 'List all short links with pagination',
+    description: '列出所有短链接（分页）',
     security: [{ bearerAuth: [] }],
     parameters: [
       {
@@ -10,14 +11,14 @@ defineRouteMeta({
         in: 'query',
         required: false,
         schema: { type: 'integer', default: 20, maximum: 1024 },
-        description: 'Maximum number of links to return',
+        description: '返回的最大链接数量',
       },
       {
         name: 'cursor',
         in: 'query',
         required: false,
         schema: { type: 'string' },
-        description: 'Pagination cursor from previous response',
+        description: '来自上次响应的分页游标',
       },
     ],
   },

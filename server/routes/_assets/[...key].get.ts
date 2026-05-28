@@ -1,3 +1,4 @@
+
 import { LinkSchema } from '#shared/schemas/link'
 
 const slugValidator = LinkSchema.shape.slug
@@ -7,30 +8,30 @@ export default eventHandler(async (event) => {
   const key = getRouterParam(event, 'key')
 
   if (!key) {
-    throw createError({ status: 400, statusText: 'Key is required' })
+    throw createError({ status: 400, statusText: '缺少 key' })
   }
 
-  // Only allow access to images/ path
+  // 仅允许访问 images/ 路径
   if (!key.startsWith('images/')) {
-    throw createError({ status: 403, statusText: 'Access denied' })
+    throw createError({ status: 403, statusText: '访问被拒绝' })
   }
 
-  // Validate slug in path: images/{slug}/{filename}
+  // 验证路径中的 slug: images/{slug}/{filename}
   const parts = key.split('/')
   if (parts.length < 3) {
-    throw createError({ status: 400, statusText: 'Invalid path format' })
+    throw createError({ status: 400, statusText: '路径格式无效' })
   }
 
   const slug = parts[1]
   const slugResult = slugValidator.safeParse(slug)
   if (!slugResult.success) {
-    throw createError({ status: 400, statusText: 'Invalid slug format' })
+    throw createError({ status: 400, statusText: 'slug 格式无效' })
   }
 
   const object = await R2.get(key)
 
   if (!object) {
-    throw createError({ status: 404, statusText: 'Image not found' })
+    throw createError({ status: 404, statusText: '图片未找到' })
   }
 
   const contentType = object.httpMetadata?.contentType || 'application/octet-stream'

@@ -6,7 +6,7 @@ const { select } = SqlBricks
 function query2sql(query: Query, event: H3Event): string {
   const filter = query2filter(query)
   const { dataset } = useRuntimeConfig(event)
-  // Weighted distinct count: COUNT(DISTINCT col) * SUM(_sample_interval) / COUNT() ≈ actual distinct count
+  // 加权去重计数：COUNT(DISTINCT 列) * 总样本间隔数 / COUNT() ≈ 实际去重计数
   const weightedDistinct = (col: string) => `ROUND(COUNT(DISTINCT ${col}) * SUM(_sample_interval) / COUNT())`
   const columns = [
     query.id && 'index1 as id',

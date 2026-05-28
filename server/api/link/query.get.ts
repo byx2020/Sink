@@ -1,8 +1,9 @@
+
 import { z } from 'zod'
 
 defineRouteMeta({
   openAPI: {
-    description: 'Query a short link by slug',
+    description: '通过 slug 查询短链接',
     security: [{ bearerAuth: [] }],
     parameters: [
       {
@@ -10,7 +11,7 @@ defineRouteMeta({
         in: 'query',
         required: true,
         schema: { type: 'string' },
-        description: 'The slug of the link to query',
+        description: '要查询的链接的 slug',
       },
     ],
   },

@@ -1,6 +1,7 @@
+
 defineRouteMeta({
   openAPI: {
-    description: 'Manually trigger a backup to R2',
+    description: '手动触发备份至 R2',
     security: [{ bearerAuth: [] }],
   },
 })
@@ -14,6 +15,6 @@ export default eventHandler(async (event) => {
 
   return {
     success: true,
-    message: 'Backup completed successfully',
+    message: '备份成功完成',
   }
 })

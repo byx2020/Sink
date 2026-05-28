@@ -1,8 +1,9 @@
+
 import type { ExportData, Link } from '#shared/schemas/link'
 
 defineRouteMeta({
   openAPI: {
-    description: 'Export all links with pagination',
+    description: '导出所有链接（分页）',
     security: [{ bearerAuth: [] }],
     parameters: [
       {
@@ -10,7 +11,7 @@ defineRouteMeta({
         in: 'query',
         required: false,
         schema: { type: 'string' },
-        description: 'Pagination cursor from previous response',
+        description: '来自上次响应的分页游标',
       },
     ],
   },

@@ -20,7 +20,7 @@ const StatsExportQuerySchema = QuerySchema.superRefine((query, ctx) => {
   if (query.startAt !== undefined && query.endAt !== undefined && query.startAt > query.endAt) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
-      message: 'startAt must be less than or equal to endAt',
+      message: 'startAt 必须小于或等于 endAt',
       path: ['startAt'],
     })
   }

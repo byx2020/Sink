@@ -1,3 +1,4 @@
+
 import type { z } from 'zod'
 import { EditLinkPasswordSchema, LinkSchema } from '#shared/schemas/link'
 
@@ -7,7 +8,7 @@ const EditLinkSchema = LinkSchema.extend({
 
 defineRouteMeta({
   openAPI: {
-    description: 'Edit an existing short link',
+    description: '编辑已有的短链接',
     security: [{ bearerAuth: [] }],
     requestBody: {
       required: true,
@@ -17,20 +18,20 @@ defineRouteMeta({
             type: 'object',
             required: ['url', 'slug'],
             properties: {
-              url: { type: 'string', description: 'The target URL' },
-              slug: { type: 'string', description: 'The slug of the link to edit' },
-              comment: { type: 'string', description: 'Optional comment' },
-              expiration: { type: 'integer', description: 'Expiration timestamp (unix seconds)' },
-              title: { type: 'string', description: 'Custom title for link preview' },
-              description: { type: 'string', description: 'Custom description for link preview' },
-              image: { type: 'string', description: 'Custom image for link preview' },
-              apple: { type: 'string', description: 'Apple App Store redirect URL' },
-              google: { type: 'string', description: 'Google Play Store redirect URL' },
-              cloaking: { type: 'boolean', description: 'Enable link cloaking (mask destination URL)' },
-              redirectWithQuery: { type: 'boolean', description: 'Append query parameters to destination URL' },
-              password: { type: 'string', description: 'Password protection for the link' },
-              unsafe: { type: 'boolean', description: 'Mark link as unsafe, showing a warning page before redirect' },
-              geo: { type: 'object', additionalProperties: { type: 'string' }, description: 'Geo-routing rules (country code to URL)' },
+              url: { type: 'string', description: '目标 URL' },
+              slug: { type: 'string', description: '要编辑的链接的 slug' },
+              comment: { type: 'string', description: '可选备注' },
+              expiration: { type: 'integer', description: '过期时间戳（Unix 秒）' },
+              title: { type: 'string', description: '自定义链接预览标题' },
+              description: { type: 'string', description: '自定义链接预览描述' },
+              image: { type: 'string', description: '自定义链接预览图片' },
+              apple: { type: 'string', description: 'Apple App Store 重定向 URL' },
+              google: { type: 'string', description: 'Google Play Store 重定向 URL' },
+              cloaking: { type: 'boolean', description: '启用链接伪装（隐藏目标 URL）' },
+              redirectWithQuery: { type: 'boolean', description: '将查询参数附加到目标 URL' },
+              password: { type: 'string', description: '链接的密码保护' },
+              unsafe: { type: 'boolean', description: '将链接标记为不安全，重定向前显示警告页面' },
+              geo: { type: 'object', additionalProperties: { type: 'string' }, description: '地区路由规则（国家代码到 URL 的映射）' },
             },
           },
         },

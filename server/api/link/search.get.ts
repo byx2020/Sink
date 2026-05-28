@@ -1,6 +1,7 @@
+
 defineRouteMeta({
   openAPI: {
-    description: 'Search all links (returns slug, url, comment for each link)',
+    description: '搜索所有链接（返回每个链接的 slug、url、comment）',
     security: [{ bearerAuth: [] }],
   },
 })
@@ -49,7 +50,7 @@ export default eventHandler(async (event) => {
               })
             }
             else {
-              // Forward compatible with links without metadata
+              // 向前兼容没有元数据的链接
               const { metadata, value: link } = await KV.getWithMetadata(key.name, { type: 'json' }) as { metadata: LinkMetadata | null, value: LinkData | null }
               if (link) {
                 list.push({
@@ -69,8 +70,8 @@ export default eventHandler(async (event) => {
             }
           }
           catch (err) {
-            console.error(`Error processing key ${key.name}:`, err)
-            continue // Skip this key and continue with the next one
+            console.error(`处理键 ${key.name} 时出错:`, err)
+            continue // 跳过此键，继续处理下一个
           }
         }
       }
@@ -82,10 +83,10 @@ export default eventHandler(async (event) => {
     return list
   }
   catch (err) {
-    console.error('Error fetching link list:', err)
+    console.error('获取链接列表时出错:', err)
     throw createError({
       status: 500,
-      statusText: 'Failed to fetch link list',
+      statusText: '获取链接列表失败',
     })
   }
 })

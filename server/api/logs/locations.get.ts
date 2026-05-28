@@ -6,7 +6,7 @@ const { select, and, notEq } = SqlBricks
 function query2sql(query: Query, event: H3Event): string {
   const filter = query2filter(query)
   const { dataset } = useRuntimeConfig(event)
-  // Use SUM(_sample_interval) instead of count() to account for sampling
+  // 使用 SUM(_sample_interval) 代替 count() 以考虑采样
   const sql = select(`blob8 as ${blobsMap.blob8},double1 as ${doublesMap.double1},double2 as ${doublesMap.double2},SUM(_sample_interval) as count`)
     .from(dataset)
     .where(and([notEq('double1', 0), notEq('double2', 0), filter]))

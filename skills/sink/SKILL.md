@@ -1,33 +1,34 @@
+
 ---
 name: sink
 description: |
-  Sink short link API operations via OpenAPI. Use when managing short links: creating, querying, updating, deleting, listing, importing, exporting links, configuring smart routing, password protection, unsafe-link warnings, and analytics exports. Also covers AI-powered slug and OpenGraph metadata generation.
-  Triggers: "create short link", "shorten URL", "delete link", "edit link", "list links", "export links", "import links", "link analytics", "export analytics", "AI slug", "AI OpenGraph", "geo routing".
+  通过 OpenAPI 进行 Sink 短链接 API 操作。适用于管理短链接：创建、查询、更新、删除、列出、导入、导出链接，配置智能路由、密码保护、不安全链接警告以及分析数据导出。还涵盖 AI 驱动的 slug 和 OpenGraph 元数据生成。
+  触发词："create short link", "shorten URL", "delete link", "edit link", "list links", "export links", "import links", "link analytics", "export analytics", "AI slug", "AI OpenGraph", "geo routing"。
 ---
 
 # Sink API
 
-Sink is a link shortener running on Cloudflare. Manage links via REST API.
+Sink 是一个运行在 Cloudflare 上的链接缩短工具。通过 REST API 管理链接。
 
-## Authentication
+## 认证
 
-All endpoints require Bearer token authentication:
+所有端点都需要 Bearer 令牌认证：
 
 ```http
 Authorization: Bearer YOUR_SITE_TOKEN
 ```
 
-Token = `NUXT_SITE_TOKEN` environment variable.
+令牌 = `NUXT_SITE_TOKEN` 环境变量。
 
-## Base URL
+## 基础 URL
 
 ```
 https://your-sink-domain
 ```
 
-## API Reference
+## API 参考
 
-### Create Link
+### 创建链接
 
 ```http
 POST /api/link/create
@@ -36,26 +37,26 @@ Content-Type: application/json
 {
   "url": "https://example.com/long-url",
   "slug": "custom-slug",
-  "comment": "optional note",
+  "comment": "可选备注",
   "expiration": 1735689599,
   "apple": "https://apps.apple.com/app/id123",
   "google": "https://play.google.com/store/apps/details?id=com.example",
   "geo": {
     "US": "https://example.com/us"
   },
-  "title": "Example Title",
-  "description": "Example social preview description",
-  "password": "optional-password",
+  "title": "示例标题",
+  "description": "示例社交预览描述",
+  "password": "可选密码",
   "redirectWithQuery": true
 }
 ```
 
-**Required**: `url`
-**Optional**: `slug` (auto-generated if omitted), `comment`, `expiration` (unix timestamp), `apple` (Apple device redirect), `google` (Android redirect), `geo` (country-specific routing map), `password`, `unsafe`, `title`, `description`, `image`, `cloaking`, `redirectWithQuery`
+**必填**：`url`
+**可选**：`slug`（省略则自动生成）、`comment`、`expiration`（Unix 时间戳）、`apple`（Apple 设备重定向）、`google`（Android 重定向）、`geo`（按国家/地区路由的映射）、`password`、`unsafe`、`title`、`description`、`image`、`cloaking`、`redirectWithQuery`
 
-> If `NUXT_SAFE_BROWSING_DOH` is configured and `unsafe` is not explicitly set, the server auto-detects via DoH and marks unsafe links automatically.
+> 如果配置了 `NUXT_SAFE_BROWSING_DOH` 且未显式设置 `unsafe`，服务端会通过 DoH 自动检测并自动标记不安全链接。
 
-**Response** (201):
+**响应**（201）：
 
 ```json
 {
@@ -70,15 +71,15 @@ Content-Type: application/json
 }
 ```
 
-**Errors**: 409 (slug exists)
+**错误**：409（slug 已存在）
 
-### Query Link
+### 查询链接
 
 ```http
 GET /api/link/query?slug=custom-slug
 ```
 
-**Response** (200):
+**响应**（200）：
 
 ```json
 {
@@ -90,9 +91,9 @@ GET /api/link/query?slug=custom-slug
 }
 ```
 
-**Errors**: 404 (not found)
+**错误**：404（未找到）
 
-### Edit Link
+### 编辑链接
 
 ```http
 PUT /api/link/edit
@@ -101,18 +102,18 @@ Content-Type: application/json
 {
   "slug": "existing-slug",
   "url": "https://new-url.com",
-  "comment": "updated note"
+  "comment": "已更新的备注"
 }
 ```
 
-**Required**: `slug` (identifies which link to edit), `url`
-**Optional**: other fields to update
+**必填**：`slug`（标识要编辑的链接）、`url`
+**可选**：其他需要更新的字段
 
-**Response** (201): Same as create
+**响应**（201）：与创建相同
 
-**Errors**: 404 (not found)
+**错误**：404（未找到）
 
-### Delete Link
+### 删除链接
 
 ```http
 POST /api/link/delete
@@ -123,20 +124,20 @@ Content-Type: application/json
 }
 ```
 
-**Response**: 200 (empty body)
+**响应**：200（空响应体）
 
-### List Links
+### 列出链接
 
 ```http
 GET /api/link/list?limit=20&cursor=abc123
 ```
 
-**Parameters**:
+**参数**：
 
-- `limit`: max 1024, default 20
-- `cursor`: pagination cursor from previous response
+- `limit`：最大 1024，默认 20
+- `cursor`：来自上次响应的分页游标
 
-**Response**:
+**响应**：
 
 ```json
 {
@@ -146,13 +147,13 @@ GET /api/link/list?limit=20&cursor=abc123
 }
 ```
 
-### Export Links
+### 导出链接
 
 ```http
 GET /api/link/export
 ```
 
-**Response**:
+**响应**：
 
 ```json
 {
@@ -164,7 +165,7 @@ GET /api/link/export
 }
 ```
 
-### Import Links
+### 导入链接
 
 ```http
 POST /api/link/import
@@ -178,17 +179,17 @@ Content-Type: application/json
 }
 ```
 
-**Response**: imported links array
+**响应**：导入的链接数组
 
-### AI Slug Generation
+### AI Slug 生成
 
 ```http
 GET /api/link/ai?url=https://example.com/article
 ```
 
-The server can use the URL and extracted page content to generate a readable slug.
+服务端可使用 URL 和提取的页面内容生成可读的 slug。
 
-**Response**:
+**响应**：
 
 ```json
 {
@@ -196,32 +197,32 @@ The server can use the URL and extracted page content to generate a readable slu
 }
 ```
 
-### AI OpenGraph Metadata Generation
+### AI OpenGraph 元数据生成
 
 ```http
 GET /api/link/og-ai?url=https://example.com/article&locale=en-US
 ```
 
-Generates a localized OpenGraph title and description from the URL and extracted page content.
+根据 URL 和提取的页面内容生成本地化的 OpenGraph 标题和描述。
 
-**Response**:
+**响应**：
 
 ```json
 {
-  "title": "Example Article",
-  "description": "A concise social preview description."
+  "title": "示例文章",
+  "description": "简洁的社交预览描述。"
 }
 ```
 
-### Verify Token
+### 验证令牌
 
 ```http
 GET /api/verify
 ```
 
-Verify if the site token is valid.
+验证站点令牌是否有效。
 
-**Response** (200):
+**响应**（200）：
 
 ```json
 {
@@ -230,70 +231,70 @@ Verify if the site token is valid.
 }
 ```
 
-**Errors**: 401 (invalid token)
+**错误**：401（令牌无效）
 
-## Link Fields
+## 链接字段
 
-| Field               | Type    | Required | Description                                                                          |
-| ------------------- | ------- | -------- | ------------------------------------------------------------------------------------ |
-| `url`               | string  | Yes      | Target URL (max 2048)                                                                |
-| `slug`              | string  | No       | Custom slug (auto-generated)                                                         |
-| `comment`           | string  | No       | Internal note                                                                        |
-| `expiration`        | number  | No       | Unix timestamp                                                                       |
-| `apple`             | string  | No       | iOS/macOS redirect URL                                                               |
-| `google`            | string  | No       | Android redirect URL                                                                 |
-| `geo`               | object  | No       | Country-specific routing map, for example `{ "US": "https://example.com/us" }`       |
-| `title`             | string  | No       | Custom title (max 256)                                                               |
-| `description`       | string  | No       | Custom description                                                                   |
-| `image`             | string  | No       | Custom image path                                                                    |
-| `cloaking`          | boolean | No       | Enable link cloaking                                                                 |
-| `redirectWithQuery` | boolean | No       | Append query params to destination URL (overrides global `NUXT_REDIRECT_WITH_QUERY`) |
-| `password`          | string  | No       | Password protection for the link                                                     |
-| `unsafe`            | boolean | No       | Mark as unsafe (shows warning page before redirect)                                  |
+| 字段                | 类型    | 必填 | 描述                                                                     |
+| ------------------- | ------- | ---- | ------------------------------------------------------------------------ |
+| `url`               | string  | 是   | 目标 URL（最大 2048）                                                    |
+| `slug`              | string  | 否   | 自定义 slug（自动生成）                                                  |
+| `comment`           | string  | 否   | 内部备注                                                                 |
+| `expiration`        | number  | 否   | Unix 时间戳                                                              |
+| `apple`             | string  | 否   | iOS/macOS 重定向 URL                                                     |
+| `google`            | string  | 否   | Android 重定向 URL                                                       |
+| `geo`               | object  | 否   | 按国家/地区路由的映射，例如 `{ "US": "https://example.com/us" }`         |
+| `title`             | string  | 否   | 自定义标题（最大 256）                                                   |
+| `description`       | string  | 否   | 自定义描述                                                               |
+| `image`             | string  | 否   | 自定义图片路径                                                           |
+| `cloaking`          | boolean | 否   | 启用链接伪装                                                             |
+| `redirectWithQuery` | boolean | 否   | 将查询参数附加到目标 URL（覆盖全局 `NUXT_REDIRECT_WITH_QUERY`）          |
+| `password`          | string  | 否   | 链接的密码保护                                                           |
+| `unsafe`            | boolean | 否   | 标记为不安全（重定向前显示警告页面）                                     |
 
-## Analytics Endpoints
+## 分析端点
 
-### Counters
+### 计数器
 
 ```http
 GET /api/stats/counters
 ```
 
-### Metrics
+### 指标
 
 ```http
 GET /api/stats/metrics
 ```
 
-### Views
+### 访问量
 
 ```http
 GET /api/stats/views
 ```
 
-### Heatmap
+### 热力图
 
 ```http
 GET /api/stats/heatmap
 ```
 
-### Export Access Analytics
+### 导出访问分析
 
 ```http
 GET /api/stats/export?startAt=1717200000&endAt=1719791999&slug=custom-slug
 ```
 
-Returns `text/csv` with `slug`, `url`, `viewer`, `views`, and `referer` columns.
+返回 `text/csv`，包含 `slug`、`url`、`viewer`、`views` 和 `referer` 列。
 
-## OpenAPI Docs
+## OpenAPI 文档
 
-- JSON: `/_docs/openapi.json`
-- Scalar UI: `/_docs/scalar`
-- Swagger UI: `/_docs/swagger`
+- JSON：`/_docs/openapi.json`
+- Scalar UI：`/_docs/scalar`
+- Swagger UI：`/_docs/swagger`
 
-## cURL Examples
+## cURL 示例
 
-Create link:
+创建链接：
 
 ```bash
 curl -X POST https://your-domain/api/link/create \
@@ -302,14 +303,14 @@ curl -X POST https://your-domain/api/link/create \
   -d '{"url": "https://github.com/example"}'
 ```
 
-List links:
+列出链接：
 
 ```bash
 curl https://your-domain/api/link/list \
   -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
-Delete link:
+删除链接：
 
 ```bash
 curl -X POST https://your-domain/api/link/delete \

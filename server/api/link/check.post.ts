@@ -1,3 +1,4 @@
+
 import type { LinkCheckResult } from '#shared/types/link-check'
 import type { H3Event } from 'h3'
 import { LinkCheckRequestSchema } from '#shared/schemas/link-check'
@@ -6,7 +7,7 @@ import { ofetch } from 'ofetch'
 
 defineRouteMeta({
   openAPI: {
-    description: 'Check target URLs for existing short links',
+    description: '检查目标 URL 是否存在已有的短链接',
     security: [{ bearerAuth: [] }],
     requestBody: {
       required: true,
@@ -28,7 +29,7 @@ defineRouteMeta({
                   },
                 },
               },
-              timeout: { type: 'integer', default: 6, minimum: 1, maximum: 30, description: 'Timeout in seconds for each link' },
+              timeout: { type: 'integer', default: 6, minimum: 1, maximum: 30, description: '每个链接的超时时间（秒）' },
             },
           },
         },

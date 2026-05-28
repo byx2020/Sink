@@ -1,8 +1,9 @@
+
 import { LinkSchema } from '#shared/schemas/link'
 
 defineRouteMeta({
   openAPI: {
-    description: 'Create or update a short link (upsert)',
+    description: '创建或更新短链接（upsert）',
     security: [{ bearerAuth: [] }],
     requestBody: {
       required: true,
@@ -12,17 +13,17 @@ defineRouteMeta({
             type: 'object',
             required: ['url'],
             properties: {
-              url: { type: 'string', description: 'The target URL' },
-              slug: { type: 'string', description: 'Custom slug (auto-generated if not provided)' },
-              comment: { type: 'string', description: 'Optional comment' },
-              expiration: { type: 'integer', description: 'Expiration timestamp (unix seconds)' },
-              title: { type: 'string', description: 'Custom title for link preview' },
-              description: { type: 'string', description: 'Custom description for link preview' },
-              image: { type: 'string', description: 'Custom image for link preview' },
-              apple: { type: 'string', description: 'Apple App Store redirect URL' },
-              google: { type: 'string', description: 'Google Play Store redirect URL' },
-              unsafe: { type: 'boolean', description: 'Mark link as unsafe, showing a warning page before redirect' },
-              geo: { type: 'object', additionalProperties: { type: 'string' }, description: 'Geo-routing rules (country code to URL)' },
+              url: { type: 'string', description: '目标 URL' },
+              slug: { type: 'string', description: '自定义 slug（若不提供则自动生成）' },
+              comment: { type: 'string', description: '可选备注' },
+              expiration: { type: 'integer', description: '过期时间戳（Unix 秒）' },
+              title: { type: 'string', description: '自定义链接预览标题' },
+              description: { type: 'string', description: '自定义链接预览描述' },
+              image: { type: 'string', description: '自定义链接预览图片' },
+              apple: { type: 'string', description: 'Apple App Store 重定向 URL' },
+              google: { type: 'string', description: 'Google Play Store 重定向 URL' },
+              unsafe: { type: 'boolean', description: '将链接标记为不安全，重定向前显示警告页面' },
+              geo: { type: 'object', additionalProperties: { type: 'string' }, description: '地区路由规则（国家代码到 URL 的映射）' },
             },
           },
         },

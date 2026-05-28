@@ -1,9 +1,10 @@
+
 defineRouteMeta({
   openAPI: {
-    description: 'Get the location of the user',
+    description: '获取用户的位置',
     responses: {
       200: {
-        description: 'The location of the user',
+        description: '用户的位置',
       },
     },
   },

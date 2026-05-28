@@ -1,12 +1,13 @@
+
 defineRouteMeta({
   openAPI: {
-    description: 'Verify the site token',
+    description: '验证站点令牌',
     responses: {
       200: {
-        description: 'The site token is valid',
+        description: '站点令牌有效',
       },
       default: {
-        description: 'The site token is invalid',
+        description: '站点令牌无效',
       },
     },
   },

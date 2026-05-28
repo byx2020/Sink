@@ -1,3 +1,4 @@
+
 import type { H3Event } from 'h3'
 import type { AiChatResponse } from '../../utils/ai'
 import { destr } from 'destr'
@@ -6,7 +7,7 @@ import { stripCodeFence } from '../../utils/ai'
 
 defineRouteMeta({
   openAPI: {
-    description: 'Generate a slug using AI based on the URL',
+    description: '基于 URL 使用 AI 生成 slug',
     security: [{ bearerAuth: [] }],
     parameters: [
       {
@@ -14,7 +15,7 @@ defineRouteMeta({
         in: 'query',
         required: true,
         schema: { type: 'string', format: 'uri' },
-        description: 'The URL to generate a slug for',
+        description: '用于生成 slug 的 URL',
       },
     ],
   },

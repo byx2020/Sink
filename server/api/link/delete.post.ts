@@ -1,9 +1,10 @@
+
 import { LinkSchema } from '#shared/schemas/link'
 import { z } from 'zod'
 
 defineRouteMeta({
   openAPI: {
-    description: 'Delete a short link',
+    description: '删除一个短链接',
     security: [{ bearerAuth: [] }],
     requestBody: {
       required: true,
@@ -13,7 +14,7 @@ defineRouteMeta({
             type: 'object',
             required: ['slug'],
             properties: {
-              slug: { type: 'string', description: 'The slug of the link to delete' },
+              slug: { type: 'string', description: '要删除的链接的 slug' },
             },
           },
         },

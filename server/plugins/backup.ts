@@ -1,3 +1,4 @@
+
 /// <reference path="../../worker-configuration.d.ts" />
 
 export default defineNitroPlugin((nitroApp) => {
@@ -5,7 +6,7 @@ export default defineNitroPlugin((nitroApp) => {
     const config = useRuntimeConfig()
 
     if (config.disableAutoBackup) {
-      console.info('[backup:kv] Auto backup is disabled by configuration')
+      console.info('[backup:kv] 自动备份已被配置禁用')
       return
     }
 
