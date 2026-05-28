@@ -35,7 +35,7 @@ export default defineNuxtConfig({
     disableBotAccessLog: false,
     disableAutoBackup: false,
     notFoundRedirect: '',
-    safeBrowsingDoh: '', // Set to DoH URL to enable auto-detection, e.g. https://family.cloudflare-dns.com/dns-query
+    safeBrowsingDoh: '', // 设置为 DoH URL 可启用自动检测，例如 https://family.cloudflare-dns.com/dns-query
     public: {
       previewMode: '',
       slugDefaultLength: '6',
@@ -80,7 +80,7 @@ export default defineNuxtConfig({
       production: 'runtime',
       meta: {
         title: 'Sink API',
-        description: 'A Simple / Speedy / Secure Link Shortener with Analytics, 100% run on Cloudflare.',
+        description: '一个简单、快速、安全的链接缩短工具，带有分析功能，100% 运行在 Cloudflare 上。',
       },
       route: '/_docs/openapi.json',
       ui: {
@@ -123,11 +123,11 @@ export default defineNuxtConfig({
   },
   shadcn: {
     /**
-     * Prefix for all the imported component
+     * 所有导入组件的前缀
      */
     prefix: '',
     /**
-     * Directory that the component lives in.
+     * 组件所在的目录
      * @default "./components/ui"
      */
     componentDir: './app/components/ui',
