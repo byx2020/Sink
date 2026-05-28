@@ -1,113 +1,114 @@
-# FAQs
+# 常见问题
 
-## 1. Why can't I create a link?
+## 1. 为什么我无法创建链接？
 
-Please check the Cloudflare KV bindings, the KV environment variable name should be all uppercase letters.
-
-<details>
-  <summary><b>Screenshot</b></summary>
-  <img alt="KV Bindings setting in Cloudflare" src="/docs/images/faqs-kv.png"/>
-</details>
-
-## 2. Why can't I log in?
-
-Please check if `NUXT_SITE_TOKEN` is set to pure numbers, Sink does not support pure number Tokens, we consider this to be unsafe.
-
-## 3. Why can't I see the analytics data?
-
-Analytics data requires access to Cloudflare’s settings:
-
-1. Verify `NUXT_CF_ACCOUNT_ID` and `NUXT_CF_API_TOKEN` are configured correctly (ensure the Account ID matches the deployment zone ID).
-2. Check that the Worker analytics engine is enabled.
+请检查 Cloudflare KV 绑定，KV 环境变量名应为全大写字母。
 
 <details>
-  <summary><b>Screenshot</b></summary>
-  <img alt="Analytics engine Bindings setting in Cloudflare " src="/docs/images/faqs-Analytics_engine.png"/>
+  <summary><b>截图</b></summary>
+  <img alt="Cloudflare 中的 KV 绑定设置" src="/docs/images/faqs-kv.png"/>
 </details>
 
-## 4. I don't want the current homepage? Can it be redirected to my blog?
+## 2. 为什么我无法登录？
 
-Of course. Please set the environment variable `NUXT_HOME_URL` to your blog or official website address.
+请检查 `NUXT_SITE_TOKEN` 是否设置为纯数字，Sink 不支持纯数字令牌，我们认为这不安全。
 
-## 5. Why can't I see statistics after deploying with NuxtHub?
+## 3. 为什么我看不到分析数据？
 
-NuxtHub's ANALYTICS points to its dataset, you need to set the `NUXT_DATASET` environment variable to point to the same dataset.
+分析数据需要访问 Cloudflare 的设置：
 
-## 6. Why are links always case-insensitive?
+1. 验证 `NUXT_CF_ACCOUNT_ID` 和 `NUXT_CF_API_TOKEN` 是否配置正确（确保账户 ID 与部署区域 ID 匹配）。
+2. 检查 Worker 分析引擎是否已启用。
 
-This is a feature of Sink. By default, we automatically convert all links to lowercase to avoid case-sensitive issues and improve usability. This ensures users don’t encounter errors due to accidental capitalization differences.
+<details>
+  <summary><b>截图</b></summary>
+  <img alt="Cloudflare 中的分析引擎绑定设置" src="/docs/images/faqs-Analytics_engine.png"/>
+</details>
 
-However, you can disable this feature by setting the `NUXT_CASE_SENSITIVE` environment variable to `true`.
+## 4. 我不想要当前的主页？可以重定向到我的博客吗？
 
-### What happens when `NUXT_CASE_SENSITIVE` is `true`?
+当然可以。请将环境变量 `NUXT_HOME_URL` 设置为你的博客或官方网站地址。
 
-Newly generated links will be case-sensitive, treating `MyLink` and `mylink` as distinct. Randomly generated slugs will include both uppercase and lowercase characters, offering a larger pool of unique combinations (but not user-friendly that why we default to non-case-sensitive).
+## 5. 使用 NuxtHub 部署后为什么看不到统计数据？
 
-## 7. Why does the Metric list only show the top 500 data entries?
+NuxtHub 的 ANALYTICS 指向其数据集，你需要设置 `NUXT_DATASET` 环境变量，使其指向同一数据集。
 
-To improve query performance, we have limited the amount of data. If you need to query more data, you can adjust it through `NUXT_LIST_QUERY_LIMIT`.
+## 6. 为什么链接总是不区分大小写？
 
-## 8. I don't want to count bot or crawler traffic
+这是 Sink 的一个特性。默认情况下，我们自动将所有链接转换为小写，以避免大小写问题并提高可用性。这确保用户不会因意外的大小写差异而遇到错误。
 
-Set `NUXT_DISABLE_BOT_ACCESS_LOG` to `true`.
+不过，你可以通过将 `NUXT_CASE_SENSITIVE` 环境变量设置为 `true` 来禁用此功能。
 
-## 9. What is Link Cloaking?
+### 当 `NUXT_CASE_SENSITIVE` 为 `true` 时会发生什么？
 
-Link cloaking masks your destination URL by showing your short link domain in the browser address bar instead of redirecting to the target URL. The destination page loads inside a full-screen iframe.
+新生成的链接将区分大小写，将 `MyLink` 和 `mylink` 视为不同。随机生成的 slug 会包含大小写字符，提供更多唯一组合（但对用户不友好，这就是我们默认不区分大小写的原因）。
 
-### How to enable it
+## 7. 为什么 Metric 列表只显示前 500 条数据？
 
-Toggle **Enable Link Cloaking** in the **Link Settings** section when creating or editing a link.
+为了提高查询性能，我们限制了数据量。如果你需要查询更多数据，可以通过 `NUXT_LIST_QUERY_LIMIT` 进行调整。
 
-### Limitations
+## 8. 我不想统计机器人或爬虫流量
 
-- **Sites that block iframes**: Websites with `X-Frame-Options: DENY` or `Content-Security-Policy: frame-ancestors 'none'` will not load inside the iframe. Most major sites (Google, GitHub, Twitter, etc.) block iframe embedding.
-- **HTTPS required**: The destination URL must use HTTPS. Mixed content (HTTPS short link → HTTP destination) will be blocked by browsers.
-- **Limited interaction**: Some features like OAuth login flows, `window.top` navigation, and certain payment forms may not work correctly inside the iframe.
-- **Device redirects take priority**: If both cloaking and device redirects (iOS/Android) are configured, device redirects will take precedence on matching devices.
+将 `NUXT_DISABLE_BOT_ACCESS_LOG` 设置为 `true`。
 
-### If the destination site blocks iframes
+## 9. 什么是链接伪装？
 
-If you control the destination site, you can whitelist your short link domain by adding this response header:
+链接伪装通过在浏览器地址栏中显示你的短链接域名来掩盖目标 URL，而不是重定向到目标地址。目标页面会在一个全屏 iframe 中加载。
+
+### 如何启用
+
+在创建或编辑链接时，在**链接设置**部分中开启**启用链接伪装**。
+
+### 限制
+
+- **屏蔽 iframe 的网站**：带有 `X-Frame-Options: DENY` 或 `Content-Security-Policy: frame-ancestors 'none'` 的网站将无法在 iframe 内加载。大多数主流网站（Google、GitHub、Twitter 等）都会屏蔽 iframe 嵌入。
+- **需要 HTTPS**：目标 URL 必须使用 HTTPS。混合内容（HTTPS 短链接 → HTTP 目标）会被浏览器阻止。
+- **有限的交互**：某些功能，如 OAuth 登录流程、`window.top` 导航和某些支付表单，在 iframe 中可能无法正常工作。
+- **设备重定向优先**：如果同时配置了伪装和设备重定向（iOS/Android），则在匹配的设备上，设备重定向将优先。
+
+### 如果目标网站屏蔽了 iframe
+
+如果你能控制目标网站，可以通过添加以下响应头将你的短链接域名加入白名单：
 
 ```
 Content-Security-Policy: frame-ancestors 'self' your-short-domain.com
 ```
 
-## 10. What is Redirect with Query Parameters?
+## 10. 什么是带查询参数重定向？
 
-When enabled, query parameters from the short link URL are appended to the destination URL. For example, visiting `https://s.ink/my-link?ref=twitter` would redirect to `https://example.com/page?ref=twitter`.
+启用后，短链接 URL 中的查询参数会附加到目标 URL。例如，访问 `https://s.ink/my-link?ref=twitter` 会重定向到 `https://example.com/page?ref=twitter`。
 
-### Per-link vs Global
+### 按链接与全局
 
-- **Global setting**: Set `NUXT_REDIRECT_WITH_QUERY=true` to enable for all links by default.
-- **Per-link override**: Toggle **Redirect with Query Parameters** in the **Link Settings** section when creating or editing a link. This overrides the global setting for that specific link.
+- **全局设置**：设置 `NUXT_REDIRECT_WITH_QUERY=true` 为所有链接默认启用。
+- **按链接覆盖**：在创建或编辑链接时，在**链接设置**部分中切换**带查询参数重定向**。这会覆盖该特定链接的全局设置。
 
-If a link has no per-link setting, it falls back to the global configuration.
+如果某个链接没有单独设置，则会回退到全局配置。
 
-## 11. How does the Import/Export feature work?
+## 11. 导入/导出功能是如何工作的？
 
-Import and Export are designed to work within Cloudflare Workers' KV operation limits (50 per request by default).
+导入和导出设计在 Cloudflare Workers 的 KV 操作限制（默认每次请求 50 次）内工作。
 
-- **Export**: Downloads links in batches, automatically paginating until complete.
-- **Import**: Uploads links in batches (half of `NUXT_PUBLIC_KV_BATCH_LIMIT`, default 25) since each link requires 2 KV operations (check existence + write).
-- **Expired links**: Imported as-is to support migration scenarios.
-- **Duplicate slugs**: Skipped during import (existing links are preserved).
-- **Validation**: All links are validated against the schema before import starts.
-- **Passwords**: Exported password values are masked. Masked passwords are preserved during import and cannot be submitted as new plaintext passwords.
+- **导出**：分批下载链接，自动分页直到完成。
+- **导入**：分批上传链接（`NUXT_PUBLIC_KV_BATCH_LIMIT` 的一半，默认 25），因为每个链接需要 2 次 KV 操作（检查是否存在 + 写入）。
+- **过期链接**：按原样导入，以支持迁移场景。
+- **重复的 slug**：导入时跳过（保留现有链接）。
+- **验证**：所有链接在导入开始前都会根据模式进行验证。
+- **密码**：导出的密码值会被掩码。掩码密码在导入时保留，不能作为新的明文密码提交。
 
-## 12. How do password-protected and unsafe links work?
+## 12. 密码保护和标记为不安全的链接是如何工作的？
 
-- **Password protection**: Visitors see a password form before redirecting. Programmatic clients can send the `x-link-password` header when requesting the short link.
-- **Unsafe warning**: Links marked as unsafe show a warning page before redirecting. Programmatic clients can send `x-link-confirm: true` after confirming the destination.
-- **Automatic unsafe detection**: Set `NUXT_SAFE_BROWSING_DOH` to a DoH endpoint to mark suspicious destinations automatically during create or edit.
+- **密码保护**：访问者在重定向前会看到一个密码表单。程序化客户端在请求短链接时可以发送 `x-link-password` 请求头。
+- **不安全警告**：标记为不安全的链接在重定向前会显示一个警告页面。程序化客户端在确认目标后可以发送 `x-link-confirm: true`。
+- **自动不安全检测**：将 `NUXT_SAFE_BROWSING_DOH` 设置为一个 DoH 端点，可在创建或编辑时自动将可疑目标标记为不安全。
 
-## 13. How does geo-routing work?
+## 13. 地区路由是如何工作的？
 
-Geo-routing redirects visitors to country-specific URLs based on Cloudflare's `request.cf.country` value. Configure a two-letter country code map such as `{ "US": "https://example.com/us" }` in the link settings or API `geo` field.
+地区路由根据 Cloudflare 的 `request.cf.country` 值将访问者重定向到特定国家/地区的 URL。在链接设置或 API 的 `geo` 字段中配置一个两位国家/地区代码映射，例如 `{ "US": "https://example.com/us" }`。
 
-Device routing takes precedence when an Apple or Android device-specific URL matches the visitor.
+当 Apple 或 Android 设备专用 URL 与访问者匹配时，设备路由优先。
 
-## 14. How can I export analytics data?
+## 14. 我如何导出分析数据？
 
-Use the dashboard's access export feature or call `GET /api/stats/export` with the same filter parameters used by analytics views, such as `startAt`, `endAt`, `slug`, `country`, `browser`, or `device`. The API returns a CSV file with `slug`, `url`, `viewer`, `views`, and `referer` columns.
+使用仪表板的访问导出功能，或调用 `GET /api/stats/export` 并使用与分析视图相同的筛选参数，例如 `startAt`、`endAt`、`slug`、`country`、`browser` 或 `device`。API 返回一个 CSV 文件，包含 `slug`、`url`、`viewer`、`views` 和 `referer` 列。
+
